@@ -58,7 +58,14 @@ router.post('/login',async (req, res) => {
             _id:user._id,
             role:user.role
         }, process.env.SECRET);
-        res.header('token',token).send(token).status(200);
+        res.header('token',token).send({
+            token:token,
+            email:user.email,
+            firstName:user.firstName,
+            lastName:user.lastName,
+            role:user.role,
+            productsHistory:user.productsHistory
+        }).status(200);
     }
     catch (error) {
         res.status(400).send(error);
