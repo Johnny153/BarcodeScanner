@@ -60,6 +60,7 @@ router.post('/login',async (req, res) => {
         }, process.env.SECRET);
         res.header('token',token).send({
             token:token,
+            id:user._id,
             email:user.email,
             firstName:user.firstName,
             lastName:user.lastName,
