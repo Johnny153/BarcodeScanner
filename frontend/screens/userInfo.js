@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { View, Text,Modal, TouchableOpacity } from 'react-native';
 import { globalStyles } from '../styles/global';
+import { AsyncStorage } from 'react-native';
 
-export default function InfoUser({route,navigation }) {
+export default function UserInfo({route,navigation }) {
 
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -19,6 +20,12 @@ export default function InfoUser({route,navigation }) {
         setEmail(response.data.email);
     };
 
+    const pressLogOut= ()=>{
+      const role='guest'
+      AsyncStorage.setItem('userRole', role)
+      navigation.navigate('Home')
+    }
+
     React.useEffect(() => {
       getDetails()
       return () => {};
@@ -30,7 +37,7 @@ export default function InfoUser({route,navigation }) {
         <View style={{ backgroundColor:'#000000aa', flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                 <View style={{ backgroundColor: 'white', width: 290, height: 400, padding: 20, borderRadius: 10}}>
                   <TouchableOpacity style={[{backgroundColor:'green',width: 90,left: 160,borderRadius:20}]}
-                   onPress={() => navigation.navigate('Home')}>
+                   onPress={() => pressLogOut()}>
                     <Text style={globalStyles.buttonText}>LOG OUT</Text>
                   </TouchableOpacity>
                   <Text style={{color: 'red', fontSize: 22, textAlign: 'center'}}>Info</Text>

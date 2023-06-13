@@ -3,7 +3,7 @@ import axios from 'axios';
 import { View, Text,Modal, TouchableOpacity } from 'react-native';
 import { globalStyles } from '../styles/global';
 
-export default function Info({route,navigation }) {
+export default function ProductInfo({route,navigation }) {
 
     const [name, setName] = useState('');
     const [category, setCategory] = useState('');
@@ -24,7 +24,6 @@ export default function Info({route,navigation }) {
             setValability(response.data.description);
             setPrice(response.data.price);
         });
-        
     };
 
     React.useEffect(() => {

@@ -77,7 +77,7 @@ router.put('/:barCode', async(req, res) => {
 
 router.delete('/:barCode', async(req,res) => {
     try {
-        const deletedProduct=await Product.findOneAndUpdate(
+        const deletedProduct=await Product.findOneAndDelete(
             {code:req.params.barCode});
             res.json(deletedProduct);
     } catch (error) {

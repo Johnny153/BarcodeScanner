@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { StatusBar, StyleSheet, Modal, View, Text, Button,Image, TextInput, TouchableOpacity, } from 'react-native';
 import { globalStyles } from '../styles/global';
 import { Picker } from '@react-native-picker/picker';
 import { Calendar } from 'react-native-calendars';
 
 
-export default function Creeaza({ navigation }) {
+export default function AddProduct({ navigation }) {
 
     const pressHandler = () => {
         navigation.goBack();
@@ -13,6 +14,12 @@ export default function Creeaza({ navigation }) {
 
     const pressOk = () => {
         setVisible(false);
+        setName('')
+        setCategory('Categoria')
+        setBarcode('')
+        setQuantity('')
+        setPrice('')
+        setSelectedDate('')
         navigation.navigate('Home')
     }
 
@@ -20,12 +27,25 @@ export default function Creeaza({ navigation }) {
         setSelectedDate(day.dateString);
         setVisibleDate(false);
         };
+
+    const handlePressSubmit= () => {
+      setVisible(true);
+      axios.post(`http://3.123.65.51:3000/products/`,{
+        name: name,
+        code: barcode,
+        quantity: quantity,
+        price: price,
+        category: category,
+        valability: selectedDate
+      })
+      .then((response) => {});
+      
+    }
         
     const [name, setName] = useState('');
     const [category, setCategory] = useState('Categoria');
     const [price, setPrice] = useState('');
     const [quantity, setQuantity] = useState('');
-    const [valability, setValability] = useState('');
     const [barcode, setBarcode] = useState('');
     const [selectedDate, setSelectedDate] = useState('');
     const [visible, setVisible] = useState(false);
@@ -39,6 +59,7 @@ export default function Creeaza({ navigation }) {
             style={styles.TextInput}
             placeholder="Denumire produs"
             placeholderTextColor="#003f5c"
+            value={name}
             onChangeText={(name) => setName(name)}
           /> 
         </View>
@@ -49,7 +70,8 @@ export default function Creeaza({ navigation }) {
             onValueChange={(itemValue, itemIndex) => setCategory(itemValue)}>
             <Picker.Item label="Categoria" value="optiune1" />
             <Picker.Item label="Uniforma" value="Uniforma" />
-            <Picker.Item label="Igiena" value="Igiena" />
+            <Picker.Item label="Igiena" value="igiena" />
+            <Picker.Item label="haine" value="haine" />
           </Picker>
         </View>
 
@@ -58,8 +80,9 @@ export default function Creeaza({ navigation }) {
             style={styles.TextInput}
             placeholder="Cod de bare"
             placeholderTextColor="#003f5c"
-            secureTextEntry={true}
+            value={barcode}
             onChangeText={(barcode) => setBarcode(barcode)}
+            keyboardType="numeric"
           /> 
         </View >
 
@@ -68,7 +91,9 @@ export default function Creeaza({ navigation }) {
             style={styles.TextInput}
             placeholder="Cantitate"
             placeholderTextColor="#003f5c"
+            value={quantity}
             onChangeText={(quantity) => setQuantity(quantity)}
+            keyboardType="numeric"
           /> 
         </View>
        
@@ -77,7 +102,9 @@ export default function Creeaza({ navigation }) {
             style={styles.TextInput}
             placeholder="Pret"
             placeholderTextColor="#003f5c"
+            value={price}
             onChangeText={(price) => setPrice(price)}
+            keyboardType="numeric"
           /> 
         </View>
 
@@ -92,7 +119,7 @@ export default function Creeaza({ navigation }) {
         </View >
         
         <TouchableOpacity style={styles.registerBtn} 
-            onPress={() =>setVisible(true)}>
+            onPress={() => handlePressSubmit()}>
           <Text style={styles.loginText}>SUBMIT</Text> 
         </TouchableOpacity>
         <Modal visible={visible} animationType="fade" transparent={true}>

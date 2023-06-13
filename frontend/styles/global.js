@@ -63,4 +63,16 @@ export const globalStyles = StyleSheet.create({
     flex: 1,
     padding: 20,
   },
+  containerStyle: {
+    borderRadius: 30,
+    backgroundColor: '#C0C0C0',
+  },
+  inputStyle: {
+    borderRadius: 30,
+    backgroundColor: '#D0D0D0',
+  },
+  inputContainerStyle: {
+    borderRadius: 30,
+    backgroundColor: '#D0D0D0',
+  },
 });

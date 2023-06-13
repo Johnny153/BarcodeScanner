@@ -62,7 +62,7 @@ export default function HomeLogin({ navigation, route }) {
   const {response}= route.params
   const {id,email,firstName,lastName,role,productsHistory} = response.data;
   const pressHandler = () =>{
-    navigation.navigate('InfoUser',{response});
+    navigation.navigate('UserInfo',{response});
   }
 
   const handleSearch = (text) => {
@@ -70,16 +70,22 @@ export default function HomeLogin({ navigation, route }) {
   };
 
   const handleFinalSearch= () => {
-    const res=response.data
-    console.log(res)
-    console.log(typeof id);
     const barCode=searchQuery
-    axios.post(`http://3.123.65.51:3000/saveProduct/${barCode}`,{
+    axios.post(`http://3.123.65.51:3000/products/saveProduct/${barCode}`,{
         userId:id
       })
       .then((response) => {});
-    navigation.navigate('Info', {code: searchQuery})
+    navigation.navigate('ProductInfo', {code: searchQuery})
     setSearchQuery('')
+  };
+
+  const handlePressCode= () => {
+    const barCode=code
+    axios.post(`http://3.123.65.51:3000/products/saveProduct/${barCode}`,{
+        userId:id
+      })
+      .then((response) => {});
+    navigation.navigate('ProductInfo', {code})
   };
 
   const pressBack=()=>{
@@ -139,7 +145,7 @@ export default function HomeLogin({ navigation, route }) {
         />
 
         <TouchableOpacity
-          onPress={()=> navigation.navigate('Info', {code})}
+          onPress={handlePressCode}
           style={globalStyles.backbutton}>
           <Text style={globalStyles.barcodeText}>{code}</Text>
         </TouchableOpacity>

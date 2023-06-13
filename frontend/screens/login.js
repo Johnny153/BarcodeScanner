@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import axios from 'axios';
 import { AsyncStorage } from 'react-native';
 import jwt from 'jwt-decode'
+import {getRole} from '../routes/HomeStack';
 
 export default function Login({ navigation, route}) {
 
@@ -17,18 +18,48 @@ export default function Login({ navigation, route}) {
     const [password, setPassword] = useState('');
     const image=require('../img/user.png')
 
-    const pressLogin=() => {
+
+    // const [isAdmin, setIsAdmin] = useState(false);
+    // const [isClient, setIsClient] = useState(false);
+  
+    // const getRole = async (role) =>{
+    //   //const role = await AsyncStorage.getItem('userRole');
+    //   if(role==='administrator')
+    //   {
+    //     setIsAdmin(true)
+    //     setIsClient(false)
+    //   }
+    //   else if(role==='client')
+    //   {
+    //     setIsClient(true)
+    //     setIsAdmin(false)
+    //   }
+    //   else
+    //   {
+    //     setIsClient(false)
+    //     setIsAdmin(false)
+    //   }
+    //   console.log(role)
+    // }
+
+    const pressLogin=async() => {
       console.log(email)
       console.log(password)
+      
       axios.post('http://3.123.65.51:3000/users/login',{
         email: email,
         password: password,
       })
-      .then((response) => {
+      .then(async(response) => {
         const token=response.data.token
+        const id = response.data.id
+        const role = response.data.role
         AsyncStorage.setItem('jwtToken', token)
+        AsyncStorage.setItem('userID', id)
+        AsyncStorage.setItem('userRole',role)
+       // getRole(role)
           .then(() => {
-            console.log('Token stored successfully');
+            console.log(role);
             navigation.navigate('HomeLogin',{response});
           })
           .catch((error) => {

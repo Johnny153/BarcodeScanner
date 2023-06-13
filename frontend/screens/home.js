@@ -17,6 +17,7 @@ import {useScanBarcodes, BarcodeFormat} from 'vision-camera-code-scanner';
 import {RNHoleView} from 'react-native-hole-view';
 import { globalStyles } from '../styles/global';
 import { SearchBar } from 'react-native-elements';
+import { AsyncStorage } from 'react-native';
 
 
 
@@ -42,6 +43,8 @@ export default function Home({ navigation, route }) {
     
   React.useEffect(() => {
       checkCameraPermission();
+      const role='guest'
+      AsyncStorage.setItem('userRole',role)
     }, []);
 
   const checkCameraPermission = async () => {
@@ -71,7 +74,7 @@ export default function Home({ navigation, route }) {
 
   const handleFinalSearch= () => {
 
-    navigation.navigate('Info', {code: searchQuery})
+    navigation.navigate('ProductInfo', {code: searchQuery})
     setSearchQuery('')
   };
 
@@ -132,7 +135,7 @@ export default function Home({ navigation, route }) {
         />
 
         <TouchableOpacity
-          onPress={()=> navigation.navigate('Info', {code})}
+          onPress={()=> navigation.navigate('ProductInfo', {code})}
           style={globalStyles.backbutton}>
           <Text style={globalStyles.barcodeText}>{code}</Text>
         </TouchableOpacity>
