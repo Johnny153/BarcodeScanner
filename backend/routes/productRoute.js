@@ -49,6 +49,7 @@ router.post('/', async(req, res) => {
             name: req.body.name,
             code: req.body.code,
             quantity: req.body.quantity,
+            quantitySold: 0,
             price: req.body.price,
             category: req.body.category,
             valability: req.body.valability
